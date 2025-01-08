@@ -2,15 +2,12 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-# Home route
 @app.route("/")
 def home():
     return render_template("index.html")
 
-# About route
-@app.route("/about")
-def about():
-    return render_template("about.html")
-
+# For Vercel to recognize the app
 if __name__ == "__main__":
+    from werkzeug.middleware.proxy_fix import ProxyFix
+    app.wsgi_app = ProxyFix(app.wsgi_app)
     app.run(debug=True)
