@@ -6,8 +6,8 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
-# For Vercel to recognize the app
-if __name__ == "__main__":
+# Export the app as a Vercel function
+def handler(event, context):
     from werkzeug.middleware.proxy_fix import ProxyFix
     app.wsgi_app = ProxyFix(app.wsgi_app)
-    app.run(debug=True)
+    return app(event, context)
